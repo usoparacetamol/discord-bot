@@ -16,9 +16,7 @@ class MeuPrimeiroBot(discord.Client):
 
 bot = MeuPrimeiroBot()
 
-# ===========================
 # Comando /olá-mundo
-# ===========================
 @bot.tree.command(
     name="olá-mundo",
     description="Primeiro comando do bot."
@@ -28,10 +26,7 @@ async def ola_mundo(interaction: discord.Interaction):
         f"Olá {interaction.user.mention}!"
     )
 
-
-# ===========================
 # Comando /soma
-# ===========================
 @bot.tree.command(
     name="soma",
     description="Soma dois números distintos."
@@ -47,10 +42,7 @@ async def soma(interaction: discord.Interaction, numero1: int, numero2: int):
         ephemeral=True
     )
 
-
-# ===========================
 # Comando /embed
-# ===========================
 @bot.tree.command(
     name="embed",
     description="Exibe um embed de exemplo."
