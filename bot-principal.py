@@ -1,6 +1,12 @@
 import discord
 from discord import app_commands
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+discord_token = os.getenv("discord_token")
+
 class MeuPrimeiroBot(discord.Client):
     def __init__(self):
         intents = discord.Intents.all()
@@ -60,3 +66,5 @@ async def embed_cmd(interaction: discord.Interaction):
     embed.set_footer(text="Enviado com sucesso.")
 
     await interaction.response.send_message(embed=embed)
+
+bot.run(discord_token)
