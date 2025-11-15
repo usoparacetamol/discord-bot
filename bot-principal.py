@@ -60,6 +60,3 @@ async def embed_cmd(interaction: discord.Interaction):
     embed.set_footer(text="Enviado com sucesso.")
 
     await interaction.response.send_message(embed=embed)
-
-
-token = "SEU_TOKEN"
