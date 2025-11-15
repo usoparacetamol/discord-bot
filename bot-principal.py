@@ -31,23 +31,49 @@ async def ola_mundo(interaction: discord.Interaction):
     await interaction.response.send_message(
         f"Olá {interaction.user.mention}!"
     )
-
-# Comando /soma
+    
+# Comando /calc
 @bot.tree.command(
-    name="soma",
-    description="Soma dois números distintos."
+    name="calc",
+    description="Faz cálculos com duas entradas."
 )
 @app_commands.describe(
-    numero1="Primeiro número a somar",
-    numero2="Segundo número a somar"
+    operacao="Escolha a operação que deseja fazer",
+    numero1="Primeiro número",
+    numero2="Segundo número"
 )
-async def soma(interaction: discord.Interaction, numero1: int, numero2: int):
-    resultado = numero1 + numero2
-    await interaction.response.send_message(
-        f"O número somado é {resultado}.",
-        ephemeral=True
-    )
+@app_commands.choices(
+    operacao=[
+        app_commands.Choice(name="adição", value="add"),
+        app_commands.Choice(name="subtração", value="sub"),
+        app_commands.Choice(name="multiplicação", value="mul"),
+        app_commands.Choice(name="divisão", value="div")
+    ]
+)
+async def calc(interaction: discord.Interaction, operacao: app_commands.Choice[str], numero1: float, numero2: float):
 
+    if operacao.value == "add":
+        resultado = numero1 + numero2
+
+    elif operacao.value == "sub":
+        resultado = numero1 - numero2
+
+    elif operacao.value == "mul":
+        resultado = numero1 * numero2
+
+    elif operacao.value == "div":
+        if numero2 == 0:
+            await interaction.response.send_message(
+                "Não tem como dividir por zero, né…",
+                ephemeral=True
+            )
+            return
+        resultado = numero1 / numero2
+
+    await interaction.response.send_message(
+        f"Resultado da operação **{operacao.name}**: `{resultado}`"
+    )
+    
 # Comando /embed
 @bot.tree.command(
     name="embed",
