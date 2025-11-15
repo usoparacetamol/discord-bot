@@ -16,8 +16,9 @@ class MeuPrimeiroBot(discord.Client):
 
 bot = MeuPrimeiroBot()
 
-
+# ===========================
 # Comando /olá-mundo
+# ===========================
 @bot.tree.command(
     name="olá-mundo",
     description="Primeiro comando do bot."
@@ -28,7 +29,9 @@ async def ola_mundo(interaction: discord.Interaction):
     )
 
 
+# ===========================
 # Comando /soma
+# ===========================
 @bot.tree.command(
     name="soma",
     description="Soma dois números distintos."
@@ -38,11 +41,33 @@ async def ola_mundo(interaction: discord.Interaction):
     numero2="Segundo número a somar"
 )
 async def soma(interaction: discord.Interaction, numero1: int, numero2: int):
-    numero_somado = numero1 + numero2
+    resultado = numero1 + numero2
     await interaction.response.send_message(
-        f"O número somado é {numero_somado}.",
+        f"O número somado é {resultado}.",
         ephemeral=True
     )
 
 
-bot.run("SEU_TOKEN")
+# ===========================
+# Comando /embed
+# ===========================
+@bot.tree.command(
+    name="embed",
+    description="Exibe um embed de exemplo."
+)
+async def embed_cmd(interaction: discord.Interaction):
+
+    embed = discord.Embed(
+        title="Meu Primeiro Embed",
+        description="Isso aqui é um embed enviado pelo mesmo bot.",
+        color=discord.Color.blurple()
+    )
+
+    embed.add_field(name="Campo 1", value="Valor do campo 1", inline=False)
+    embed.add_field(name="Campo 2", value="Valor do campo 2", inline=True)
+    embed.set_footer(text="Enviado com sucesso.")
+
+    await interaction.response.send_message(embed=embed)
+
+
+token = "SEU_TOKEN"
