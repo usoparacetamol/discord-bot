@@ -1,26 +1,30 @@
 import discord
+from discord.ext import commands
 from discord import app_commands
-
 from dotenv import load_dotenv
 import os
 
+# Carregar variáveis de ambiente
 load_dotenv()
 discord_token = os.getenv("discord_token")
 
-class MeuPrimeiroBot(discord.Client):
-    def __init__(self):
-        intents = discord.Intents.all()
-        super().__init__(intents=intents)
-        self.tree = app_commands.CommandTree(self)
+# Intents
+intents = discord.Intents.all()
 
-    async def setup_hook(self):
-        await self.tree.sync()
+# Inicializar bot
+bot = commands.Bot(command_prefix="!", intents=intents)
 
-    async def on_ready(self):
-        print(f"O Bot {self.user} foi ligado com sucesso.")
+# Sincronização dos comandos
+@bot.event
+async def on_ready():
+    print(f"O Bot {bot.user} foi ligado com sucesso.")
+    try:
+         GUILD_ID = discord.Object(id= id do servidor)
+         await bot.tree.sync(guild=GUILD_ID)
+        print("Comandos sincronizados com sucesso.")
+    except Exception as e:
+        print(f"Erro ao sincronizar comandos: {e}")
 
-
-bot = MeuPrimeiroBot()
 
 # Comando /olá-mundo
 @bot.tree.command(
@@ -31,7 +35,8 @@ async def ola_mundo(interaction: discord.Interaction):
     await interaction.response.send_message(
         f"Olá {interaction.user.mention}!"
     )
-    
+
+
 # Comando /calc
 @bot.tree.command(
     name="calc",
@@ -73,7 +78,8 @@ async def calc(interaction: discord.Interaction, operacao: app_commands.Choice[s
     await interaction.response.send_message(
         f"Resultado da operação **{operacao.name}**: `{resultado}`"
     )
-    
+
+
 # Comando /embed
 @bot.tree.command(
     name="embed",
@@ -90,6 +96,7 @@ async def embed_cmd(interaction: discord.Interaction):
     embed.add_field(name="Campo 1", value="Valor do campo 1", inline=False)
     embed.add_field(name="Campo 2", value="Valor do campo 2", inline=True)
     embed.set_footer(text="Enviado com sucesso.")
+    embed.set_thumbnail(url="https://cdn-icons-png.flaticon.com/512/4712/4712109.png")
 
     await interaction.response.send_message(embed=embed)
 
