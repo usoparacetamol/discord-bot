@@ -4,24 +4,17 @@ from discord import app_commands
 from dotenv import load_dotenv
 import os
 
-# Carregar variáveis de ambiente
-load_dotenv()
-discord_token = os.getenv("discord_token")
+intents = discord.Intents.default()
+intents.message_content = True 
 
-# Intents
-intents = discord.Intents.all()
+bot = commands.Bot(intents=intents)
 
-# Inicializar bot
-bot = commands.Bot(command_prefix="!", intents=intents)
-
-# Sincronização dos comandos
 @bot.event
 async def on_ready():
-    print(f"O Bot {bot.user} foi ligado com sucesso.")
+    print(f"✅ Bot {bot.user} foi ligado com sucesso.")
     try:
-         GUILD_ID = discord.Object(id= id do servidor)
-         await bot.tree.sync(guild=GUILD_ID)
-        print("Comandos sincronizados com sucesso.")
+        await bot.tree.sync()
+        print("Slash commands sincronizados com sucesso.")
     except Exception as e:
         print(f"Erro ao sincronizar comandos: {e}")
 
@@ -59,13 +52,10 @@ async def calc(interaction: discord.Interaction, operacao: app_commands.Choice[s
 
     if operacao.value == "add":
         resultado = numero1 + numero2
-
     elif operacao.value == "sub":
         resultado = numero1 - numero2
-
     elif operacao.value == "mul":
         resultado = numero1 * numero2
-
     elif operacao.value == "div":
         if numero2 == 0:
             await interaction.response.send_message(
@@ -99,5 +89,5 @@ async def embed_cmd(interaction: discord.Interaction):
     embed.set_thumbnail(url="https://cdn-icons-png.flaticon.com/512/4712/4712109.png")
 
     await interaction.response.send_message(embed=embed)
-
+    
 bot.run(discord_token)
